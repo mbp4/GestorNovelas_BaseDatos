@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 class NuevaNovelaActivity: ComponentActivity() {
     private lateinit var btnGuardarNovela: Button
@@ -13,7 +17,7 @@ class NuevaNovelaActivity: ComponentActivity() {
     private lateinit var editAutor: EditText
     private lateinit var editAño: EditText
     private lateinit var editSinopsis: EditText
-    private var listadoNovelas: MutableList <Novela> = NovelasRepository.novelas
+    private val db: FirebaseFirestore = Firebase.firestore
     //creamos todas las variables necesarias para hacer la activity funcional
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,11 +28,8 @@ class NuevaNovelaActivity: ComponentActivity() {
         editAutor = findViewById(R.id.editAutor)
         editAño = findViewById(R.id.editAño)
         editSinopsis = findViewById(R.id.editSinopsis)
-        //asignamos a cada una de las variables anteriores las definidias en el layout asigando
-
         btnGuardarNovela = findViewById(R.id.btnGuardarNovela)
         btnCancelar = findViewById(R.id.btnCancelar)
-        //hacemos lo mismo con los botones
 
         btnGuardarNovela.setOnClickListener {
             guardarNovela()
@@ -52,11 +53,14 @@ class NuevaNovelaActivity: ComponentActivity() {
         val nuevaNovela = Novela(titulo, autor, año, sinopsis)
         //creamos una nueva novela con sus correspondientes atributos
 
-        listadoNovelas.add(nuevaNovela)
-        //añadimos la novela al listado
-
-        val resultIntent = Intent()
-        setResult(RESULT_OK, resultIntent)
-        //por ultimo mandamos la señal de que se ha guardado de manera correcta para poder a añadirla al listado y que este se actualice
+        db.collection("novelas")
+            .add(nuevaNovela)
+            .addOnSuccessListener { documentReference ->
+                Toast.makeText(this, "Novela guardada: ${nuevaNovela.titulo}", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Error al guardar la novela: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
