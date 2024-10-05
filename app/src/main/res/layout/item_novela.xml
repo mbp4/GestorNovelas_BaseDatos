@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teal_200"
+    >
+
+    <TextView
+        android:id="@+id/textTituloNovel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="titulo" />
+
+
+    <TextView
+        android:id="@+id/textAutorNovel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="autor" />
+
+
+    <Button
+        android:id="@+id/btnVer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver" />
+
+    <Button
+        android:id="@+id/btnBorrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Borrar" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider" />
+
+</LinearLayout>
