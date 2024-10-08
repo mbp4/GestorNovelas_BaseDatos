@@ -56,7 +56,7 @@ Después de los botones nos encontramos la lista de novelas existente donde solo
 
  -> Botón ver: este botón redirige al usuario a una nueva pantalla donde se muestra toda la informacion de la novela elegida.
  
- -> Botón eliminar: este botón eliminará de la lista la novela elegida.
+ -> Botón eliminar: este botón eliminará de la base de datos la novela elegida.
 
  ### Novela
 
@@ -72,23 +72,13 @@ Clase de datos Novela:
 
 ```
 
-### Repositorio de Novelas
+### Base de datos de Novelas
 
-En esta clase creamos una lista haciendo uso del companion object, el cual nos ayuda a que esta lista sea accesible para todas las activities del proyecto: 
+Para esto haremos uso de Firebase, con esto podremos hacer uso de una base de datos donde se modificarán las novelas, es decir, se añadiran o se eliminarán de esta.
 
-```
-Clase NovelasRepository:
-    Objeto companion:
-        Crear una lista mutable de objetos Novela llamada 'novelas'
+Visualmente uno de los elementos se vería así: 
 
-        Inicializar la lista 'novelas' con varias novelas:
-            Añadir Novela("La llamada de Cthulhu", "H. P. Lovecraft", 1928, "gyugdef")
-            Añadir Novela("La llamada de Pepito", "Manuel", 1948, "")
-            Añadir Novela("La llamada de Manuel", "Jose", 1932, "")
-            Añadir Novela("La llamada de Juan", "Anonimo", 1928, "")
-            Añadir Novela("La llamada de Pedro", "Maria", 1976, "")
-
-```
+<img width="1145" alt="Captura de pantalla 2024-10-08 a las 12 10 29" src="https://github.com/user-attachments/assets/b95ccd0f-3be7-4b64-9b46-d6d999623247">
 
 ### Adaptador para las Novelas
 
@@ -214,8 +204,16 @@ En este activity nos encontraremos varios TextEdit en los cuales el usuario podr
 
 ## Proceso de desarrollo
 
-Al realizar la aplicación necesitamos una lista para que se guarden las novelas que el usuario ha querido meter en la aplicación y que este tenga algunas para que las pueda visualizar, para esto utilizaremos un recyclerView (un componente de AndroidStudio que permite utilizar listas de varios elementos de manera eficiente), pero este elemento no permite visualizar la vista por lo que necesitamos un elemento adaptador que se encargue de gestionar la vista de cada una de las novelas y actualizarse en el caso necesario. 
+Para realizar la aplicacion se ha hecho uso del anterior proyecto como base y este ha sido modificado.
 
-Lo primero que se nos pide para realizar la aplicacion era el uso de Layouts, por lo tanto lo primero que se ha realizado han sido los correspondientes Layout de cada una de las activities, por lo que en cada pantalla necesitaremos asociar los elementos de la pantalla a cada uno de los ya existentes en el Layout, ademas de asociar a cada activity su Layout correspondiente. 
+En el proyecto se nos solicitaba que nuestra aplicación de gestor de novelas contase con una base de datos que guardara estas, por lo tanto los cambios han sido: 
 
-Por último, en la aplicacion ha sido necesario crear un Companion Object el cual es necesario para que las pantallas puedan acceder a un objeto en común sin problema, en este caso era el repositorio de novelas ya que la lista era necesaria en varias activities para poder hacer el programa funcional.
+ -> Lo primero será cambiar la lista de novelas por una base de datos que creamos desde firebase con todos los elementos necesarios. 
+ 
+ -> Después debemos cambiar los botones correspondientes:
+ 
+    -> Botón borrar: debemos hacer que el botón borre la novela de la base de datos, haciendo que los datos ya no esten en esta, ademas de esto se añade un pop up que confirma que el              usuario desea borrar la novela de la base de datos. Cuando esta se borre aparecerá un mensaje que indicará al usuario si se ha borrado o no.
+
+    -> Botón guardar: debemos hacer que el botón guarde la novela en la base de datos, haciendo que los datos se actualicen, cuando esta se añada aparecerá un mensaje que indicará al              usuario si se ha añadido o no.
+
+ -> Y por último para no tener informacion innecesaria en nuestro programa borraremos el repositorio de novelas que se tenía en la anterior práctica.
