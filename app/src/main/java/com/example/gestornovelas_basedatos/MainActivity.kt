@@ -105,6 +105,7 @@ class MainActivity : ComponentActivity() {
                     documento.reference.delete()
                 }
                 mostrarNovelas()
+                Toast.makeText(this, "Novela eliminada", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error al borrar la novela", Toast.LENGTH_SHORT).show()
