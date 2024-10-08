@@ -62,4 +62,5 @@ class NuevaNovelaActivity: ComponentActivity() {
                 Toast.makeText(this, "Error al guardar la novela: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+    //creamos un metodo que permita al usuario guardar la novela en la base de datos y que se le notifique de su acción
 }

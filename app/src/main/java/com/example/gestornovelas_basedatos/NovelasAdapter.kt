@@ -51,7 +51,7 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
                 .setNegativeButton("No", null)
                 .show()
         }
-        //en el caso de querer borrar la novela se hara uso de este boton
+        //en el caso de querer borrar la novela se hara uso de este boton, el cual mostrara un dialog que hara que el usuario confirme la accion
 
     }
 

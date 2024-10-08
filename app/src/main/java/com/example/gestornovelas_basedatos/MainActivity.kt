@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var novelasAdapter: NovelasAdapter
     private var listadoNovelasF: MutableList <Novela> = mutableListOf()
     private val db: FirebaseFirestore = Firebase.firestore
+    //creamos todas las variables necesarias para hacer la activity funcional
 
     companion object{
         const val ACCION_VER = 1
@@ -40,20 +41,23 @@ class MainActivity : ComponentActivity() {
         btnAlta.setOnClickListener {
             val intent = Intent(this, NuevaNovelaActivity::class.java)
             startActivity(intent)
-        } //iniciamos la actividad y para que la lista se reinicie al añadir o no un nuevo elemento
+        } //boton que nos lleva a la actividad de alta de novelas
 
         btnAcercaDe.setOnClickListener {
             val intent = Intent(this, AcercaDeActivity::class.java)
             startActivity(intent)
+            //boton que nos lleva a la actividad de acerca de
         }
 
         mostrarNovelas()
+
     }
 
     override fun onResume() {
         super.onResume()
         mostrarNovelas()
     }
+    //creamos una función que haga que la lista se actualice al volver a la actividad
 
     private fun mostrarNovelas() {
         db.collection("novelas")
@@ -69,11 +73,13 @@ class MainActivity : ComponentActivity() {
             .addOnFailureListener({ exception ->
                 Toast.makeText(this, "Error al obtener las novelas", Toast.LENGTH_SHORT).show()
                 Log.w(TAG, "Error al obtener las novelas de la base de datos", exception)
-            })
+            }) //mandamos un error a la logcat y al usuario en el caso de que no se pueda obtener la lista de novelas de la base de datos
+        //creamos un metodo que hace que muestre la lista de novelas de la base de datos y las añada a una lista de novelas para uqe se muestren en la principal
     }
 
     private fun prepararRecyclerView(){
         recyclerNovelas.layoutManager = LinearLayoutManager(this)
+        //configuramos el recycler para que sea una lista vertical
         novelasAdapter = NovelasAdapter(listadoNovelasF){ novela, accion ->
             if (accion == ACCION_VER) {
                 verNovela(novela)
@@ -81,10 +87,11 @@ class MainActivity : ComponentActivity() {
             else if (accion == ACCION_BORRAR){
                 borrarNovela(novela)
             }
+            //hacemos que el metodo identifique si el usuario quiere borrar o ver la novela y se ejecuta la accion elegida
 
         }
-        recyclerNovelas.adapter = novelasAdapter
-        novelasAdapter.notifyDataSetChanged()
+        recyclerNovelas.adapter = novelasAdapter //asignamos el recycler a la vista
+        novelasAdapter.notifyDataSetChanged() //notificamos al adaptador que los datos han cambiado
     }
 
     private fun verNovela(novela: Novela){
@@ -94,6 +101,7 @@ class MainActivity : ComponentActivity() {
         intent.putExtra("Año", novela.año)
         intent.putExtra("Sinopsis", novela.sinopsis)
         startActivity(intent)
+        //mostramos todos los datos de la novela que el usuario ha elegido en una nueva pantalla
     }
 
     private fun borrarNovela(novela: Novela){
@@ -111,6 +119,7 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Error al borrar la novela", Toast.LENGTH_SHORT).show()
             }
     }
+    //con este metodo buscamos la novela que el usuario ha elegido y la borramos de la base de datos dandole a la vez un mensaje para que sepa que se ha eliminado correctamente
 
 }
 
