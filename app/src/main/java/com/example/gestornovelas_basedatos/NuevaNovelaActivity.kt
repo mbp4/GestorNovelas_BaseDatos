@@ -49,7 +49,7 @@ class NuevaNovelaActivity: ComponentActivity() {
         val autor = editAutor.text.toString()
         val año = editAño.text.toString().toInt()
         val sinopsis = editSinopsis.text.toString()
-        val nuevaNovela = Novela(titulo, autor, año, sinopsis)
+        val nuevaNovela = Novela(titulo, autor, año, sinopsis, false)
         //creamos una nueva novela con sus correspondientes atributos
 
         db.collection("novelas")

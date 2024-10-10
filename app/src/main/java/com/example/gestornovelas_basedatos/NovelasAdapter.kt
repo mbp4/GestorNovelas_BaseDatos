@@ -16,6 +16,7 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         val textAutorNovel: TextView = itemView.findViewById(R.id.textAutorNovel)
         val btnVer: Button = itemView.findViewById(R.id.btnVer)
         val btnBorrar: Button = itemView.findViewById(R.id.btnBorrar)
+        val btnFavorito: Button = itemView.findViewById(R.id.btnFavorito)
         //creamos las correspodientes variables para que el activity sea funcional
     }
 
@@ -53,6 +54,9 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         }
         //en el caso de querer borrar la novela se hara uso de este boton, el cual mostrara un dialog que hara que el usuario confirme la accion
 
+        holder.btnFavorito.setOnClickListener {
+            onNovelasClick(currentNovela, MainActivity.ACCION_FAV)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -18,13 +18,14 @@ class MainActivity : ComponentActivity() {
     private lateinit var btnAcercaDe: Button
     private lateinit var recyclerNovelas: RecyclerView
     private lateinit var novelasAdapter: NovelasAdapter
-    private var listadoNovelasF: MutableList <Novela> = mutableListOf()
+    private var listadoNovelasF: MutableList<Novela> = mutableListOf()
     private val db: FirebaseFirestore = Firebase.firestore
     //creamos todas las variables necesarias para hacer la activity funcional
 
-    companion object{
+    companion object {
         const val ACCION_VER = 1
         const val ACCION_BORRAR = 2
+        const val ACCION_FAV = 3
     }
     //declaramos todas las variables necesarias para hacer la aplicación funcional
 
@@ -77,15 +78,16 @@ class MainActivity : ComponentActivity() {
         //creamos un metodo que hace que muestre la lista de novelas de la base de datos y las añada a una lista de novelas para uqe se muestren en la principal
     }
 
-    private fun prepararRecyclerView(){
+    private fun prepararRecyclerView() {
         recyclerNovelas.layoutManager = LinearLayoutManager(this)
         //configuramos el recycler para que sea una lista vertical
-        novelasAdapter = NovelasAdapter(listadoNovelasF){ novela, accion ->
+        novelasAdapter = NovelasAdapter(listadoNovelasF) { novela, accion ->
             if (accion == ACCION_VER) {
                 verNovela(novela)
-            }
-            else if (accion == ACCION_BORRAR){
+            } else if (accion == ACCION_BORRAR) {
                 borrarNovela(novela)
+            } else if (accion == ACCION_FAV) {
+                añadirFavorita(novela)
             }
             //hacemos que el metodo identifique si el usuario quiere borrar o ver la novela y se ejecuta la accion elegida
 
@@ -94,7 +96,7 @@ class MainActivity : ComponentActivity() {
         novelasAdapter.notifyDataSetChanged() //notificamos al adaptador que los datos han cambiado
     }
 
-    private fun verNovela(novela: Novela){
+    private fun verNovela(novela: Novela) {
         val intent = Intent(this, VerNovelaActivity::class.java)
         intent.putExtra("Titulo", novela.titulo)
         intent.putExtra("Autor", novela.autor)
@@ -104,7 +106,7 @@ class MainActivity : ComponentActivity() {
         //mostramos todos los datos de la novela que el usuario ha elegido en una nueva pantalla
     }
 
-    private fun borrarNovela(novela: Novela){
+    private fun borrarNovela(novela: Novela) {
         db.collection("novelas")
             .whereEqualTo("titulo", novela.titulo)
             .get()
@@ -121,5 +123,18 @@ class MainActivity : ComponentActivity() {
     }
     //con este metodo buscamos la novela que el usuario ha elegido y la borramos de la base de datos dandole a la vez un mensaje para que sepa que se ha eliminado correctamente
 
+    private fun añadirFavorita(novela: Novela) {
+        db.collection("novelas")
+            .whereEqualTo("titulo", novela.titulo)
+            .get()
+            .addOnSuccessListener { documentos ->
+                for (documento in documentos) {
+                    documento.reference.update("fav", true)
+                }
+                mostrarNovelas()
+                Toast.makeText(this, "Novela añadida a favoritos", Toast.LENGTH_SHORT).show()
+            }
+    }
 }
+
 
