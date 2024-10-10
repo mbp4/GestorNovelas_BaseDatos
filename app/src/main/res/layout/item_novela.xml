@@ -38,6 +38,12 @@
         android:layout_height="wrap_content"
         android:text="Añadir a favoritos" />
 
+    <Button
+        android:id="@+id/btnXFavorito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Borrar de favoritos" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"

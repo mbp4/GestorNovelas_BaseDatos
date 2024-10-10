@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
         const val ACCION_VER = 1
         const val ACCION_BORRAR = 2
         const val ACCION_FAV = 3
+        const val ACCION_XFAV = 4
     }
     //declaramos todas las variables necesarias para hacer la aplicación funcional
 
@@ -88,12 +89,27 @@ class MainActivity : ComponentActivity() {
                 borrarNovela(novela)
             } else if (accion == ACCION_FAV) {
                 añadirFavorita(novela)
+            } else if (accion == ACCION_XFAV){
+                xFav(novela)
             }
             //hacemos que el metodo identifique si el usuario quiere borrar o ver la novela y se ejecuta la accion elegida
 
         }
         recyclerNovelas.adapter = novelasAdapter //asignamos el recycler a la vista
         novelasAdapter.notifyDataSetChanged() //notificamos al adaptador que los datos han cambiado
+    }
+
+    private fun xFav(novela: Novela) {
+        db.collection("novelas")
+            .whereEqualTo("titulo", novela.titulo)
+            .get()
+            .addOnSuccessListener { documentos ->
+                for (documento in documentos) {
+                    documento.reference.update("fav", false)
+                }
+                mostrarNovelas()
+                Toast.makeText(this, "Novela eliminada de favoritos", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun verNovela(novela: Novela) {

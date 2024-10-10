@@ -17,6 +17,7 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         val btnVer: Button = itemView.findViewById(R.id.btnVer)
         val btnBorrar: Button = itemView.findViewById(R.id.btnBorrar)
         val btnFavorito: Button = itemView.findViewById(R.id.btnFavorito)
+        val btnXFavorito: Button = itemView.findViewById(R.id.btnXFavorito)
         //creamos las correspodientes variables para que el activity sea funcional
     }
 
@@ -56,6 +57,10 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
 
         holder.btnFavorito.setOnClickListener {
             onNovelasClick(currentNovela, MainActivity.ACCION_FAV)
+        }
+
+        holder.btnXFavorito.setOnClickListener {
+            onNovelasClick(currentNovela, MainActivity.ACCION_XFAV)
         }
     }
 
