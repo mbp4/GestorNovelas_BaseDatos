@@ -2,7 +2,7 @@
  
 link al repositorio: https://github.com/mbp4/GestorNovelas_BaseDatos.git
 
-En el ejercicio propuesto se nos pide hacer una aplicación de gestion de novelas, donde se puedan ver, eliminar o añadir nuevas novelas a una lista ya existente.
+En el ejercicio propuesto se nos pide hacer una aplicación de gestion de novelas, donde se puedan ver, eliminar o añadir nuevas novelas haciendo uso de una base de datos.
 
 ## EXPLICACIÓN
 
