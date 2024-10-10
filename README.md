@@ -11,79 +11,87 @@ En el ejercicio propuesto se nos pide hacer una aplicación de gestion de novela
 Para realizar la aplicacion necesitamos una aplicacion inicial que nos servirá de pantalla de inicio, su pseudocódigo sería:
 
 ```
-Clase MainActivity extiende ComponentActivity:
+Clase MainActivity hereda de ComponentActivity
+    Variables privadas:
+        Botón btnAlta
+        Botón btnAcercaDe
+        RecyclerView recyclerNovelas
+        NovelasAdapter novelasAdapter
+        Lista mutable listadoNovelasF de tipo Novela 
+        Base de datos db de tipo FirebaseFirestore
 
-    Declarar btnAlta como botón
-    Declarar btnAcercaDe como botón
-    Declarar recyclerNovelas como RecyclerView
-    Declarar novelasAdapter como NovelasAdapter
-    Declarar listadoNovelasF como una lista mutable de Novela
-    Declarar db como FirebaseFirestore (base de datos)
+    Constantes:
+        ACCION_VER = 1
+        ACCION_BORRAR = 2
+        ACCION_FAV = 3
+        ACCION_XFAV = 4
 
-    Constante ACCION_VER = 1
-    Constante ACCION_BORRAR = 2
+    Método onCreate
+        Llamar al super.onCreate
+        Establecer la vista principal usando activity_main
+        Asociar btnAlta y btnAcercaDe con sus respectivos botones en el layout
+        Asociar recyclerNovelas con el RecyclerView en el layout
 
-    Método onCreate(bundle):
-        Llamar a super.onCreate(bundle)
-        Establecer la vista de la actividad en el layout activity_main
+        Acción al hacer clic en btnAlta:
+            Crear un Intent para navegar a NuevaNovelaActivity
+            Iniciar la actividad
 
-        Asignar btnAlta al identificador btnAlta del layout
-        Asignar btnAcercaDe al identificador btnAcercaDe del layout
-        Asignar recyclerNovelas al identificador recyclerNovelas del layout
+        Acción al hacer clic en btnAcercaDe:
+            Crear un Intent para navegar a AcercaDeActivity
+            Iniciar la actividad
 
-        Cuando se haga clic en btnAlta:
-            Crear un intent para abrir NuevaNovelaActivity
-            Iniciar la actividad con el intent
+        Llamar a la función mostrarNovelas
 
-        Cuando se haga clic en btnAcercaDe:
-            Crear un intent para abrir AcercaDeActivity
-            Iniciar la actividad con el intent
+    Método onResume
+        Llamar al super.onResume
+        Llamar a la función mostrarNovelas
 
-        Llamar a mostrarNovelas()
+    Función privada mostrarNovelas
+        Obtener la colección "novelas" de la base de datos
+        Si la obtención de los documentos es exitosa:
+            Limpiar la lista listadoNovelasF
+            Por cada documento en la colección:
+                Convertir el documento a un objeto Novela
+                Añadir la novela a la lista listadoNovelasF
+            Llamar a prepararRecyclerView
+        Si ocurre un error:
+            Mostrar un mensaje de error al usuario
+            Registrar el error en la consola (log)
 
-    Método onResume():
-        Llamar a super.onResume()
-        Llamar a mostrarNovelas()
+    Función privada prepararRecyclerView
+        Configurar recyclerNovelas para que use un diseño en forma de lista vertical (LinearLayoutManager)
+        Crear una instancia de NovelasAdapter con la lista listadoNovelasF
+            Cuando el usuario realice una acción:
+                Si la acción es ACCION_VER, llamar a verNovela
+                Si la acción es ACCION_BORRAR, llamar a borrarNovela
+                Si la acción es ACCION_FAV, llamar a añadirFavorita
+                Si la acción es ACCION_XFAV, llamar a xFav
+        Asignar novelasAdapter como adaptador de recyclerNovelas
+        Notificar al adaptador que los datos han cambiado
 
-    Método privado mostrarNovelas():
-        Consultar la colección "novelas" de la base de datos:
-            Si se obtienen documentos correctamente:
-                Limpiar listadoNovelasF
-                Para cada documento en los documentos obtenidos:
-                    Convertir el documento en un objeto Novela
-                    Añadir la novela a listadoNovelasF
-                Llamar a prepararRecyclerView()
-            Si ocurre un error:
-                Mostrar un mensaje de error al usuario
-                Registrar el error en el log (logcat)
+    Función privada xFav
+        Buscar en la base de datos la novela por título
+        Actualizar el campo "fav" a falso para quitarla de favoritos
+        Llamar a mostrarNovelas para actualizar la lista
+        Mostrar mensaje de confirmación
 
-    Método privado prepararRecyclerView():
-        Establecer recyclerNovelas.layoutManager como LinearLayoutManager
+    Función privada verNovela
+        Crear un Intent para navegar a VerNovelaActivity
+        Pasar los datos de la novela seleccionada (título, autor, año, sinopsis) al Intent
+        Iniciar la actividad
 
-        Asignar novelasAdapter como NovelasAdapter(listadoNovelasF) con:
-            Si la acción es ACCION_VER:
-                Llamar a verNovela(novela seleccionada)
-            Si la acción es ACCION_BORRAR:
-                Llamar a borrarNovela(novela seleccionada)
+    Función privada borrarNovela
+        Buscar en la base de datos la novela por título
+        Eliminar el documento de la base de datos
+        Llamar a mostrarNovelas para actualizar la lista
+        Mostrar mensaje de confirmación si se eliminó correctamente
+        Mostrar mensaje de error si hubo un fallo al eliminar
 
-        Asignar recyclerNovelas.adapter a novelasAdapter
-
-        Llamar a novelasAdapter.notifyDataSetChanged()
-
-    Método privado verNovela(novela):
-        Crear un intent para abrir VerNovelaActivity
-        Añadir los datos de la novela (título, autor, año, sinopsis) al intent
-        Iniciar la actividad con el intent
-
-    Método privado borrarNovela(novela):
-        Consultar en la colección "novelas" donde el título sea igual al título de la novela:
-            Si se obtienen documentos:
-                Para cada documento en los documentos:
-                    Borrar el documento de la base de datos
-                Llamar a mostrarNovelas()
-                Mostrar mensaje "Novela eliminada"
-            Si ocurre un error:
-                Mostrar mensaje "Error al borrar la novela"
+    Función privada añadirFavorita
+        Buscar en la base de datos la novela por título
+        Actualizar el campo "fav" a verdadero para añadirla a favoritos
+        Llamar a mostrarNovelas para actualizar la lista
+        Mostrar mensaje de confirmación
 
 ```
 
@@ -99,9 +107,15 @@ Después de los botones nos encontramos la lista de novelas existente donde solo
  
  -> Botón eliminar: este botón eliminará de la base de datos la novela elegida.
 
+Y también unos botones e imagen identificadora de novelas favoritas:
+
+ -> Botones favoritos: tenemos dos botones, uno de ello marcará la novela como favorita y el otro la quitará de favoritos.
+
+ -> Imagen: para indicar al usuario que la novela ya es favorita se muestra una imagen que cambia dependiendo del atributo de la novela que indica si es o no favorita.
+
  ### Novela
 
- Con esta clase creamos un obejto novela del cual más adelante crearemos una lista: 
+ Con esta clase creamos un objeto novela para podeer trabajar con varios en las diferentes actividades: 
 
  ```
 Clase de datos Novela con los siguientes atributos:
@@ -109,10 +123,11 @@ Clase de datos Novela con los siguientes atributos:
     - autor como String
     - año como Int
     - sinopsis como String
+    - fav como boolean 
 
-    Constructorn():
+    Constructor():
         Llamar al constructor principal con valores por defecto:
-            titulo vacío, autor vacío, año igual a 0, sinopsis vacía
+            titulo vacío, autor vacío, año igual a 0, sinopsis vacía, fav falso
 ```
 
 ### Base de datos de Novelas
@@ -128,42 +143,49 @@ Visualmente uno de los elementos se vería así:
 Con esta activity buscamos mostrar la lista que se ha creado de novelas, esta activity es necesaria ya que es la que hace posible que se muestre el recyclerView (el utilizado para poder crear la lista de novelas): 
 
 ```
-Clase NovelasAdapter con dos parámetros:
-    novelas: Lista mutable de objetos de tipo Novela
-    onNovelasClick: Función que recibe una Novela y una acción (entero) y no devuelve valor
+Clase NovelasAdapter (recibe una lista mutable de novelas y una función para manejar clics)
 
-    La clase extiende RecyclerView.Adapter con un ViewHolder interno NovelasViewHolder
+    Clase interna NovelasViewHolder (hereda de RecyclerView.ViewHolder)
+        Variables en el layout del item:
+            TextView textTituloNovel 
+            TextView textAutorNovel 
+            Botón btnVer 
+            Botón btnBorrar 
+            Botón btnFavorito 
+            Botón btnXFavorito 
+            ImageView estrella 
 
-    Clase interna NovelasViewHolder con parámetro itemView:
-        textTituloNovel: TextView que representa el título de la novela
-        textAutorNovel: TextView que representa el autor de la novela
-        btnVer: Botón para ver los detalles de la novela
-        btnBorrar: Botón para borrar la novela
-
-    Método onCreateViewHolder(parent, viewType) devuelve NovelasViewHolder:
-        Crear una nueva vista inflando el layout item_novela
+    Método onCreateViewHolder (crea una nueva vista para cada item en la lista)
+        Inflar la vista del layout item_novela
         Devolver un nuevo NovelasViewHolder con la vista inflada
 
-    Método onBindViewHolder(holder, posición):
-        Obtener la novela actual en la posición dada
-        Asignar el título y autor de la novela actual a los TextViews correspondientes (textTituloNovel, textAutorNovel)
-        
-        Evento clic en btnVer:
-            Llamar a onNovelasClick con la novela actual y la acción ACCION_VER
+    Método onBindViewHolder (vincula los datos con la vista en la posición actual)
+        Obtener la novela actual de la lista en la posición indicada
+        Mostrar el título y autor de la novela en los TextViews correspondientes
+        Acción al hacer clic en btnVer:
+            Llamar a la función onNovelasClick con la novela actual y la acción ACCION_VER
+        Acción al hacer clic en btnBorrar:
+            Mostrar un diálogo de confirmación para borrar la novela
+            i el usuario confirma, llamar a onNovelasClick con la novela y la acción ACCION_BORRAR
+        Acción al hacer clic en btnFavorito:
+            Llamar a onNovelasClick con la novela actual y la acción ACCION_FAV
+        Acción al hacer clic en btnXFavorito:
+            Llamar a onNovelasClick con la novela actual y la acción ACCION_XFAV
+        Si la novela es favorita (atributo fav es true):
+            Cambiar la imagen de la estrella a rellena
+        Si no es favorita:
+            Cambiar la imagen de la estrella a vacía
 
-        Evento clic en btnBorrar:
-            Mostrar un diálogo de confirmación con el título de la novela
-            Si el usuario confirma (presiona "Sí"), llamar a onNovelasClick con la novela actual y la acción ACCION_BORRAR
-            Si el usuario cancela (presiona "No"), no hacer nada
-
-    Método getItemCount() devuelve entero:
-        Retornar el tamaño de la lista de novelas
+    Método getItemCount (devuelve el número de novelas en la lista)
+        Devolver el tamaño de la lista de novelas
 
 ```
 
 Este adaptador se encarga de la gestión de la visualización de las novelas y los botones. 
 
 Estos 2 botones se encargan de llevar al usuario a una pantalla encargada de mostrar toda la información de la novela elegida por el usuario (btnVer) y de eliminar la novela que el usuario decida (btnBorrar).
+
+A parte tendremos los botones que se encargan de cambiar el atributo de la novela seleccionada para que esta se convierta en favorita o no mostrando una imagen de una estrella vacia en el caso de que la novela no sea favorita y de una estrella rellena en el caso de que sea una favorita. 
 
 Por otra parte el adaptador se encarga también de mostrar el tamaño de la lista.
 
@@ -214,11 +236,11 @@ Clase NuevaNovelaActivity extiende ComponentActivity:
 
     Declarar btnGuardarNovela como botón
     Declarar btnCancelar como botón
-    Declarar editTitulo como EditText (campo de texto para el título)
-    Declarar editAutor como EditText (campo de texto para el autor)
-    Declarar editAño como EditText (campo de texto para el año)
-    Declarar editSinopsis como EditText (campo de texto para la sinopsis)
-    Declarar db como FirebaseFirestore (base de datos)
+    Declarar editTitulo como EditText 
+    Declarar editAutor como EditText 
+    Declarar editAño como EditText 
+    Declarar editSinopsis como EditText 
+    Declarar db como FirebaseFirestore 
 
     Método onCreate(bundle):
         Llamar a super.onCreate(bundle)
