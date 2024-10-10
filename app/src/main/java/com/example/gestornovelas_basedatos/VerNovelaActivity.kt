@@ -1,10 +1,7 @@
 package com.example.gestornovelas_basedatos
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 

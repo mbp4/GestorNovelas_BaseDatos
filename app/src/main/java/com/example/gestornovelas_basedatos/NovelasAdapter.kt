@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.recyclerview.widget.RecyclerView
 
 class NovelasAdapter (private var novelas: MutableList<Novela>,
@@ -23,7 +20,6 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         val btnFavorito: Button = itemView.findViewById(R.id.btnFavorito)
         val btnXFavorito: Button = itemView.findViewById(R.id.btnXFavorito)
         val estrella: ImageView = itemView.findViewById(R.id.estrella)
-        val favo: TextView = itemView.findViewById(R.id.favo)
         //creamos las correspodientes variables para que el activity sea funcional
     }
 
