@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -32,17 +33,42 @@
         android:layout_height="wrap_content"
         android:text="Borrar" />
 
-    <Button
-        android:id="@+id/btnFavorito"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Añadir a favoritos" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnXFavorito"
+        <Button
+            android:id="@+id/btnFavorito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Añadir a favoritos" />
+
+        <Button
+            android:id="@+id/btnXFavorito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Borrar de favoritos" />
+
+        <ImageView
+            android:id="@+id/estrella"
+            android:layout_width="71dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:contentDescription="Favoritos"
+            android:focusable="true"
+            app:srcCompat="@android:drawable/btn_star" />
+            />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/favo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Borrar de favoritos" />
+        android:text="" />
 
     <View
         android:id="@+id/divider"

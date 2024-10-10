@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
             } else if (accion == ACCION_XFAV){
                 xFav(novela)
             }
-            //hacemos que el metodo identifique si el usuario quiere borrar o ver la novela y se ejecuta la accion elegida
+            //hacemos que el metodo identifique si el usuario quiere borrar, ver la novela o añadir o borrar de favoritos y se ejecuta la accion elegida
 
         }
         recyclerNovelas.adapter = novelasAdapter //asignamos el recycler a la vista
@@ -111,6 +111,7 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Novela eliminada de favoritos", Toast.LENGTH_SHORT).show()
             }
     }
+    //metodo para borrar de favoritos la novela
 
     private fun verNovela(novela: Novela) {
         val intent = Intent(this, VerNovelaActivity::class.java)
@@ -151,6 +152,7 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Novela añadida a favoritos", Toast.LENGTH_SHORT).show()
             }
     }
+    //metodo para cambiar el atributo de la novela y añadirlo a favoritos
 }
 
 
