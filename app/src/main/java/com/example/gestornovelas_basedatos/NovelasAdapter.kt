@@ -74,6 +74,7 @@ class NovelasAdapter (private var novelas: MutableList<Novela>,
         } else {
             holder.estrella.setImageResource(R.drawable.normal) // Imagen de estrella vacía
         }
+        //cambiamos el icono de la estrella segun el caso
 
         //en el caso de querer añadir o borrar de favoritos una novela se usaran estos botones
     }
